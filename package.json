@@ -19,7 +19,6 @@
     "vite": "^4.2.0"
   },
   "dependencies": {
-    "svelte-navigator": "^3.2.2",
     "svelty-picker": "^3.4.6"
   }
 }

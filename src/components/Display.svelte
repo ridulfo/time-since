@@ -1,7 +1,5 @@
 <script lang="ts">
   import { formatDuration, secondsSince } from "../date";
-  import { useNavigate } from "svelte-navigator";
-  const navigate = useNavigate();
 
   const urlParams = new URLSearchParams(window.location.search);
   const title = urlParams.get("title");
@@ -15,7 +13,7 @@
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-<h1 on:click={() => navigate("/")}>Time since</h1>
+<h1 on:click={() => (window.location.hash = "")}>Time since</h1>
 {#if title}
   <h4>{title}</h4>
 {/if}

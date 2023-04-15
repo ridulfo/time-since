@@ -1,18 +1,30 @@
 <script lang="ts">
-  import { Route, Router, useNavigate } from "svelte-navigator";
-
+  import { onMount } from "svelte";
   import Display from "./components/Display.svelte";
   import Picker from "./components/Picker.svelte";
   import TotalCalculator from "./components/TotalCalculator.svelte";
+  let hash = window.location.hash;
+
+  // Reactive hash change
+  onMount(() => {
+    const handleHashChange = (event) => {
+      hash = window.location.hash;
+    };
+    window.addEventListener("hashchange", handleHashChange);
+    return () => {
+      window.removeEventListener("hashchange", handleHashChange);
+    };
+  });
 </script>
 
 <main>
-  <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <Router>
-    <Route path="/calculator" component={TotalCalculator} />
-    <Route path="/" component={Picker} />
-    <Route path="/:display" component={Display} />
-  </Router>
+  {#if hash === "#calculator"}
+    <TotalCalculator />
+  {:else if hash === "#display"}
+    <Display />
+  {:else}
+    <Picker />
+  {/if}
 </main>
 
 <style>

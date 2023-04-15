@@ -1,7 +1,5 @@
 <script lang="ts">
   import SveltyPicker from "svelty-picker";
-  import { useNavigate } from "svelte-navigator";
-  const navigate = useNavigate();
 
   let datetimeStr = "";
   let title = "";
@@ -10,12 +8,13 @@
     const params = new URLSearchParams();
     params.set("start", Math.floor(datetime.getTime() / 1000).toString());
     params.set("title", title);
-    navigate(`display/?${params.toString()}`);
+    window.location.hash = `display`; // This needs to be set before the search params
+    window.location.search = params.toString();
   };
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-<h1 on:click={() => navigate("/calculator")}>Time since</h1>
+<h1 on:click={() => (window.location.hash = "calculator")}>Time since</h1>
 <div class="picker-container">
   <label for="title">Choose title</label>
   <input id="title" bind:value={title} />
@@ -26,6 +25,7 @@
     initialDate={new Date()}
   />
   <button on:click={onSubmit}>Go!</button>
+  <i class="tip">By the way, click title to get to the calculator</i>
 </div>
 
 <style>
@@ -34,5 +34,9 @@
     flex-direction: column;
     align-items: center;
     gap: 1rem;
+  }
+  .tip {
+    font-size: xx-small;
+    color: #666;
   }
 </style>
