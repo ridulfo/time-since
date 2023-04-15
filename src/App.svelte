@@ -1,6 +1,7 @@
 <script lang="ts">
   import Display from "./components/Display.svelte";
   import Picker from "./components/Picker.svelte";
+  import TotalCalculator from "./components/TotalCalculator.svelte";
 
   const urlParams = new URLSearchParams(window.location.search);
   const title = urlParams.get("title");
@@ -9,8 +10,12 @@
 </script>
 
 <main>
-  <h1>Time since</h1>
-  {#if startStr}
+  <h1 on:click={() => (window.location.pathname = "/TotalTimeCalculator")}>
+    Time since
+  </h1>
+  {#if window.location.pathname.includes("TotalTimeCalculator")}
+    <TotalCalculator />
+  {:else if startStr}
     <Display {title} {startDate} />
   {:else}
     <Picker />
