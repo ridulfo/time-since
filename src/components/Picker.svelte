@@ -25,7 +25,7 @@
     bind:value={datetimeStr}
     initialDate={new Date()}
   />
-  <button on:click={onSubmit}>Submit</button>
+  <button on:click={onSubmit}>Go!</button>
 </div>
 
 <style>

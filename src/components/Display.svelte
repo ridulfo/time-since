@@ -15,13 +15,13 @@
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-<h1 on:click={() => navigate("/calculator")}>Time since</h1>
+<h1 on:click={() => navigate("/")}>Time since</h1>
 {#if title}
-  <h3>{title}</h3>
+  <h4>{title}</h4>
 {/if}
-<p>
+<h3>
   {formattedDistance}
-</p>
+</h3>
 <a href="/">Reset</a>
 
 <style>
@@ -29,7 +29,7 @@
     color: #9a9a9a;
     font-size: small;
   }
-  h3 {
-    margin-bottom: 0;
+  h4 {
+    margin: 0;
   }
 </style>
