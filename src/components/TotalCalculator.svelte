@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { useNavigate } from "svelte-navigator";
+  const navigate = useNavigate();
   let text = "";
   $: total = "0";
 
@@ -32,6 +34,8 @@
   };
 </script>
 
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<h1 on:click={() => navigate("/")}>Time since</h1>
 <p>
   Enter times in the format <code>HHMM HHMM</code>
 </p>

@@ -1,25 +1,18 @@
 <script lang="ts">
+  import { Route, Router, useNavigate } from "svelte-navigator";
+
   import Display from "./components/Display.svelte";
   import Picker from "./components/Picker.svelte";
   import TotalCalculator from "./components/TotalCalculator.svelte";
-
-  const urlParams = new URLSearchParams(window.location.search);
-  const title = urlParams.get("title");
-  const startStr = urlParams.get("start");
-  const startDate = new Date(parseInt(startStr) * 1000);
 </script>
 
 <main>
-  <h1 on:click={() => (window.location.pathname = "/TotalTimeCalculator")}>
-    Time since
-  </h1>
-  {#if window.location.pathname.includes("TotalTimeCalculator")}
-    <TotalCalculator />
-  {:else if startStr}
-    <Display {title} {startDate} />
-  {:else}
-    <Picker />
-  {/if}
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
+  <Router>
+    <Route path="/calculator" component={TotalCalculator} />
+    <Route path="/" component={Picker} />
+    <Route path="/:display" component={Display} />
+  </Router>
 </main>
 
 <style>
