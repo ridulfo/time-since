@@ -3,6 +3,7 @@
   import Display from "./components/Display.svelte";
   import Picker from "./components/Picker.svelte";
   import TotalCalculator from "./components/TotalCalculator.svelte";
+  import Corner from "./components/Corner.svelte";
   let hash = window.location.hash;
 
   // Reactive hash change
@@ -26,6 +27,7 @@
     <Picker />
   {/if}
 </main>
+<Corner />
 
 <style>
   main {
