@@ -1,5 +1,6 @@
 <script lang="ts">
   import { formatDuration, secondsSince } from "../date";
+  import CopyLink from "./CopyLink.svelte";
 
   const urlParams = new URLSearchParams(window.location.search);
   const title = urlParams.get("title");
@@ -7,9 +8,15 @@
   const startDate = new Date(parseInt(startStr) * 1000);
   $: seconds = secondsSince(startDate);
   $: formattedDistance = formatDuration(seconds);
+  $: window.document.title = formattedDistance;
   setInterval(() => {
     seconds = secondsSince(startDate);
   }, 750);
+  $: hasCopied = false;
+  const copyUrl = () => {
+    navigator.clipboard.writeText(window.location.href);
+    hasCopied = true;
+  };
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -26,7 +33,11 @@
 <h3>
   {formattedDistance}
 </h3>
-<a href="/">Reset</a>
+<span>
+  <CopyLink text="copy url" url={window.location.href} />
+  &nbsp;|&nbsp;
+  <a href="/">reset</a>
+</span>
 
 <style>
   a {
