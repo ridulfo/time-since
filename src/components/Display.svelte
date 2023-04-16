@@ -5,15 +5,21 @@
   const title = urlParams.get("title");
   const startStr = urlParams.get("start");
   const startDate = new Date(parseInt(startStr) * 1000);
-
-  $: formattedDistance = formatDuration(secondsSince(startDate));
+  $: seconds = secondsSince(startDate);
+  $: formattedDistance = formatDuration(seconds);
   setInterval(() => {
-    formattedDistance = formatDuration(secondsSince(startDate));
-  }, 1000);
+    seconds = secondsSince(startDate);
+  }, 750);
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-<h1 on:click={() => (window.location.hash = "")}>Time since</h1>
+<h1 on:click={() => (window.location.hash = "")}>
+  {#if seconds > 0}
+    Time <u>since</u>
+  {:else}
+    Time <u>until</u>
+  {/if}
+</h1>
 {#if title}
   <h4>{title}</h4>
 {/if}
