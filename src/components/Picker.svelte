@@ -3,11 +3,13 @@
 
   let datetimeStr = "";
   let title = "";
+  let workHours = false;
   const onSubmit = () => {
     const datetime = new Date(datetimeStr);
     const params = new URLSearchParams();
     params.set("start", Math.floor(datetime.getTime() / 1000).toString());
     params.set("title", title);
+    if (workHours) params.set("type", "workhours");
     window.location.hash = `display`; // This needs to be set before the search params
     window.location.search = params.toString();
   };
@@ -24,6 +26,10 @@
     bind:value={datetimeStr}
     initialDate={new Date()}
   />
+  <span>
+    <label for="workHours">Work hours only</label>
+    <input type="checkbox" bind:checked={workHours} />
+  </span>
   <button on:click={onSubmit}>Go!</button>
   <i class="tip">By the way, click title to get to the calculator</i>
 </div>

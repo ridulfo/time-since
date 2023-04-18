@@ -13,8 +13,38 @@ export const formatDuration = (seconds: number) => {
   return hoursString + minutesString + secondsString;
 };
 
-export const secondsSince = (date: Date) => {
+const workDayStart = 8;
+const workDayEnd = 17;
+
+export const secondsSince = (
+  date: Date,
+  durationType: "all" | "workHours" = "all"
+) => {
   const now = new Date();
-  const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
-  return seconds;
+  if (durationType === "all") {
+    const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+    return seconds;
+  } else {
+    console.time("secondsSince");
+    let count = 0;
+    // timestamp in seconds
+    let current = Math.floor(new Date(now).getTime() / 1000);
+    const end = Math.floor(new Date(date).getTime() / 1000);
+    while (current < end) {
+      const date = new Date(current * 1000);
+
+      if (
+        date.getDay() !== 0 &&
+        date.getDay() !== 6 &&
+        date.getHours() >= workDayStart &&
+        date.getHours() < workDayEnd
+      ) {
+        count++;
+      }
+      current++;
+    }
+    console.timeEnd("secondsSince");
+    console.log(count);
+    return count;
+  }
 };

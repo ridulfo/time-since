@@ -6,11 +6,13 @@
   const title = urlParams.get("title");
   const startStr = urlParams.get("start");
   const startDate = new Date(parseInt(startStr) * 1000);
-  $: seconds = secondsSince(startDate);
+  const type = urlParams.get("type") === "workhours" ? "workHours" : "all";
+  $: seconds = secondsSince(startDate, type);
   $: formattedDistance = formatDuration(seconds);
   $: window.document.title = formattedDistance;
+
   setInterval(() => {
-    seconds = secondsSince(startDate);
+    seconds = secondsSince(startDate, type);
   }, 750);
   $: hasCopied = false;
   const copyUrl = () => {
@@ -22,9 +24,9 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <h1 on:click={() => (window.location.hash = "")}>
   {#if seconds > 0}
-    Time <u>since</u>
+    {type === "all" ? "Time" : "Work hours"} <u>since</u>
   {:else}
-    Time <u>until</u>
+    {type === "all" ? "Time" : "Work hours"} <u>until</u>
   {/if}
 </h1>
 {#if title}
