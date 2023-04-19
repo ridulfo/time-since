@@ -19,6 +19,7 @@
     "vite": "^4.2.0"
   },
   "dependencies": {
+    "dayjs": "^1.11.7",
     "svelty-picker": "^3.4.6"
   }
 }

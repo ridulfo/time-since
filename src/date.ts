@@ -1,3 +1,7 @@
+import dayjs from "dayjs";
+import isBetween from "dayjs/plugin/isBetween";
+dayjs.extend(isBetween);
+
 /** Takes a number of seconds and returns a string containing how many
  * hours, minutes and seconds that is. */
 export const formatDuration = (seconds: number) => {
@@ -13,38 +17,68 @@ export const formatDuration = (seconds: number) => {
   return hoursString + minutesString + secondsString;
 };
 
-const workDayStart = 8;
-const workDayEnd = 17;
-
 export const secondsSince = (
-  date: Date,
-  durationType: "all" | "workHours" = "all"
+  datetime: Date,
+  workHours?: { start: string; end: string }
 ) => {
-  const now = new Date();
-  if (durationType === "all") {
-    const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
-    return seconds;
-  } else {
-    console.time("secondsSince");
-    let count = 0;
-    // timestamp in seconds
-    let current = Math.floor(new Date(now).getTime() / 1000);
-    const end = Math.floor(new Date(date).getTime() / 1000);
-    while (current < end) {
-      const date = new Date(current * 1000);
-
-      if (
-        date.getDay() !== 0 &&
-        date.getDay() !== 6 &&
-        date.getHours() >= workDayStart &&
-        date.getHours() < workDayEnd
-      ) {
-        count++;
-      }
-      current++;
-    }
-    console.timeEnd("secondsSince");
-    console.log(count);
-    return count;
+  const now =  dayjs();
+  const date = dayjs(datetime);
+  if (!workHours) {
+    return date.diff(now, "second");
   }
+
+  const workDayStartHour = parseInt(workHours?.start.split(":")[0]);
+  const workDayStartMinute = parseInt(workHours?.start.split(":")[1]);
+  const workDayEndHour = parseInt(workHours?.end.split(":")[0]);
+  const workDayEndMinute = parseInt(workHours?.end.split(":")[1]);
+
+  let seconds = 0;
+
+  const todayStart = dayjs(now)
+    .hour(workDayStartHour)
+    .minute(workDayStartMinute)
+    .second(0);
+  const todayEnd = dayjs(now)
+    .hour(workDayEndHour)
+    .minute(workDayEndMinute)
+    .second(0);
+  if (
+    now.day() !== 0 &&
+    now.day() !== 6 &&
+    now.isBetween(todayStart.add(-1, "minute"), todayEnd.add(1, "minute"))
+  ) {
+    seconds += todayEnd.diff(now, "second");
+  }
+
+  const dateStart = dayjs(date)
+    .hour(workDayStartHour)
+    .minute(workDayStartMinute)
+    .second(0);
+  const dateEnd = dayjs(date)
+    .hour(workDayEndHour)
+    .minute(workDayEndMinute)
+    .second(0);
+
+  if (
+    now.day() !== 0 &&
+    now.day() !== 6 &&
+    date.isBetween(dateStart.add(-1, "minutes"), dateEnd.add(1, "minutes"))
+  ) {
+    seconds += dateStart.diff(date, "second");
+  }
+
+  // count number of work days between now and date
+  let current = dayjs(now);
+  current = current.add(1, "day");
+  let countWorkDays = 0;
+  while (current.isBefore(date)) {
+    if (current.day() !== 0 && current.day() !== 6) {
+      countWorkDays++;
+    }
+    current = current.add(1, "day");
+  }
+
+  seconds += countWorkDays * dateStart.diff(dateEnd, "seconds");
+
+  return seconds;
 };

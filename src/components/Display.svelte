@@ -7,12 +7,22 @@
   const startStr = urlParams.get("start");
   const startDate = new Date(parseInt(startStr) * 1000);
   const type = urlParams.get("type") === "workhours" ? "workHours" : "all";
-  $: seconds = secondsSince(startDate, type);
+  const workHoursStart = urlParams.get("workHoursStart");
+  const workHoursEnd = urlParams.get("workHoursEnd");
+  const hasWorkHours = workHoursStart && workHoursEnd;
+
+  $: seconds = secondsSince(
+    startDate,
+    hasWorkHours ? { start: workHoursStart, end: workHoursEnd } : undefined
+  );
   $: formattedDistance = formatDuration(seconds);
   $: window.document.title = formattedDistance;
 
   setInterval(() => {
-    seconds = secondsSince(startDate, type);
+    seconds = secondsSince(
+      startDate,
+      hasWorkHours ? { start: workHoursStart, end: workHoursEnd } : undefined
+    );
   }, 750);
   $: hasCopied = false;
   const copyUrl = () => {
