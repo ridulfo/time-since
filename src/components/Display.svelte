@@ -1,17 +1,8 @@
 <script lang="ts">
-  import {
-    Link,
-    link,
-    useLocation,
-    useNavigate,
-    useParams,
-  } from "svelte-navigator";
-  import {
-    dateFromFormat,
-    formatDuration,
-    secondsSince as distance,
-  } from "../date";
+  import { link, useLocation, useNavigate, useParams } from "svelte-navigator";
   import CopyLink from "./CopyLink.svelte";
+  import { dateFromFormat, formatDuration } from "../utils/dateformat";
+  import { distance } from "../utils/date";
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -21,33 +12,19 @@
 
   const search = new URLSearchParams($location.search);
   const title = search.get("title");
-  const type = search.get("type") === "workhours" ? "workHours" : "all";
-  const workHoursStart = search.get("workHoursStart");
-  const workHoursEnd = search.get("workHoursEnd");
-  const hasWorkHours = workHoursStart && workHoursEnd;
 
-  $: seconds = distance(
-    instant,
-    hasWorkHours ? { start: workHoursStart, end: workHoursEnd } : undefined
-  );
+  $: seconds = distance(instant);
   $: formattedDistance = formatDuration(seconds);
   $: window.document.title = formattedDistance;
 
   setInterval(() => {
-    seconds = distance(
-      instant,
-      hasWorkHours ? { start: workHoursStart, end: workHoursEnd } : undefined
-    );
+    seconds = distance(instant);
   }, 750);
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <h1 on:click={() => navigate("/")}>
-  {#if type === "all"}
-    Time
-  {:else}
-    Work hours
-  {/if}
+  Time
   {#if seconds < 0}
     <u>since</u>
   {:else}
