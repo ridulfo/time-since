@@ -1,31 +1,23 @@
 <script lang="ts">
+  import { Router, Route, Link, createHistory } from "svelte-navigator";
+
   import { onMount } from "svelte";
   import Display from "./components/Display.svelte";
   import Picker from "./components/Picker.svelte";
   import TotalCalculator from "./components/TotalCalculator.svelte";
   import Corner from "./components/Corner.svelte";
+  import { createHashSource } from "./hash-history";
   let hash = window.location.hash;
 
-  // Reactive hash change
-  onMount(() => {
-    const handleHashChange = (event) => {
-      hash = window.location.hash;
-    };
-    window.addEventListener("hashchange", handleHashChange);
-    return () => {
-      window.removeEventListener("hashchange", handleHashChange);
-    };
-  });
+  const hashHistory = createHistory(createHashSource());
 </script>
 
 <main>
-  {#if hash === "#calculator"}
-    <TotalCalculator />
-  {:else if hash === "#display"}
-    <Display />
-  {:else}
-    <Picker />
-  {/if}
+  <Router history={hashHistory}>
+    <Route path="/calculator" component={TotalCalculator} />
+    <Route path="/" component={Picker} />
+    <Route path="/:time" component={Display} />
+  </Router>
 </main>
 <Corner />
 

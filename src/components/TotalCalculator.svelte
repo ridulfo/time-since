@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { link, useNavigate } from "svelte-navigator";
+
   let text = "";
   $: total = "0";
 
@@ -30,10 +32,11 @@
       return `${hours} hours and ${minutes} minutes`;
     } catch (error) {}
   };
+  const navigate = useNavigate();
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-<h1 on:click={() => (window.location.hash = "")}>Time since</h1>
+<h1 on:click={() => navigate("/")}>Time since</h1>
 <p>
   Enter times in the format <code>HHMM HHMM</code>
 </p>

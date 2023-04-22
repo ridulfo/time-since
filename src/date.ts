@@ -21,7 +21,7 @@ export const secondsSince = (
   datetime: Date,
   workHours?: { start: string; end: string }
 ) => {
-  const now =  dayjs();
+  const now = dayjs();
   const date = dayjs(datetime);
   if (!workHours) {
     return date.diff(now, "second");
@@ -82,3 +82,16 @@ export const secondsSince = (
 
   return seconds;
 };
+
+export const dateFormat = (date: Date) => dayjs(date).format("YYYYMMDD-HHmmss");
+
+export const dateFromFormat = (date: string) => {
+  // return datejs(date, "YYYYMMDD-HHmmss") did not work
+  const year = parseInt(date.slice(0, 4));
+  const month = parseInt(date.slice(4, 6));
+  const day = parseInt(date.slice(6, 8));
+  const hour = parseInt(date.slice(9, 11));
+  const minute = parseInt(date.slice(11, 13));
+  const second = parseInt(date.slice(13, 15));
+  return new Date(year, month - 1, day, hour, minute, second);
+}

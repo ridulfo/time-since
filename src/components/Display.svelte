@@ -1,42 +1,57 @@
 <script lang="ts">
-  import { formatDuration, secondsSince } from "../date";
+  import {
+    Link,
+    link,
+    useLocation,
+    useNavigate,
+    useParams,
+  } from "svelte-navigator";
+  import {
+    dateFromFormat,
+    formatDuration,
+    secondsSince as distance,
+  } from "../date";
   import CopyLink from "./CopyLink.svelte";
 
-  const urlParams = new URLSearchParams(window.location.search);
-  const title = urlParams.get("title");
-  const startStr = urlParams.get("start");
-  const startDate = new Date(parseInt(startStr) * 1000);
-  const type = urlParams.get("type") === "workhours" ? "workHours" : "all";
-  const workHoursStart = urlParams.get("workHoursStart");
-  const workHoursEnd = urlParams.get("workHoursEnd");
+  const navigate = useNavigate();
+  const location = useLocation();
+  const params = useParams<{ time: string }>();
+
+  const instant = dateFromFormat($params.time);
+
+  const search = new URLSearchParams($location.search);
+  const title = search.get("title");
+  const type = search.get("type") === "workhours" ? "workHours" : "all";
+  const workHoursStart = search.get("workHoursStart");
+  const workHoursEnd = search.get("workHoursEnd");
   const hasWorkHours = workHoursStart && workHoursEnd;
 
-  $: seconds = secondsSince(
-    startDate,
+  $: seconds = distance(
+    instant,
     hasWorkHours ? { start: workHoursStart, end: workHoursEnd } : undefined
   );
   $: formattedDistance = formatDuration(seconds);
   $: window.document.title = formattedDistance;
 
   setInterval(() => {
-    seconds = secondsSince(
-      startDate,
+    seconds = distance(
+      instant,
       hasWorkHours ? { start: workHoursStart, end: workHoursEnd } : undefined
     );
   }, 750);
-  $: hasCopied = false;
-  const copyUrl = () => {
-    navigator.clipboard.writeText(window.location.href);
-    hasCopied = true;
-  };
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-<h1 on:click={() => (window.location.hash = "")}>
-  {#if seconds > 0}
-    {type === "all" ? "Time" : "Work hours"} <u>since</u>
+<h1 on:click={() => navigate("/")}>
+  {#if type === "all"}
+    Time
   {:else}
-    {type === "all" ? "Time" : "Work hours"} <u>until</u>
+    Work hours
+  {/if}
+  {#if seconds < 0}
+    <u>since</u>
+  {:else}
+    <u>until</u>
   {/if}
 </h1>
 {#if title}
@@ -48,7 +63,7 @@
 <span>
   <CopyLink text="copy url" url={window.location.href} />
   &nbsp;|&nbsp;
-  <a href="/">reset</a>
+  <a use:link href="/" on:click={() => navigate("/")}>reset</a>
 </span>
 
 <style>
