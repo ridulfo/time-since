@@ -10,9 +10,12 @@
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   <h2>About</h2>
   <p>
-    This website is a REST API into time itself. By querying the API with a date
-    and search parameters you can visualize the time since or until that date in
-    various ways.
+    Welcome to our website, where time is not just a concept but a tangible
+    entity waiting to be explored. Our website offers a REST API that allows you
+    to delve into the mysteries of time by inputting a date and search
+    parameters. Once you do, you can visualize the time since or until that date
+    in various ways, unlocking the secrets of the past, present, and future all
+    in one place.
   </p>
   <h3>Usage</h3>
   <h4>Default</h4>
@@ -23,7 +26,8 @@
   will return the time since the end date; 1h.
   <h4>Coming soon (?)</h4>
   <code>/20230422-161300?type=workhours</code><br />
-  will return the time since that date, but only count the work hours.<br /><br />
+  will return the time since that date, but only count the work hours.<br /><br
+  />
   <code
     >/20230422-161300?type=workhours & workdaystart=0800 & workdayend=1600</code
   ><br />
