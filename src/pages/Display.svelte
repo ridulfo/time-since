@@ -1,8 +1,9 @@
 <script lang="ts">
-  import { link, useLocation, useNavigate, useParams } from "svelte-navigator";
-  import CopyLink from "./CopyLink.svelte";
-  import { dateFromFormat, formatDuration } from "../utils/dateformat";
+  import { useLocation, useNavigate, useParams } from "svelte-navigator";
+  import CopyLink from "../components/CopyLink.svelte";
+  import Link from "../components/Link.svelte";
   import { distance } from "../utils/date";
+  import { dateFromFormat, formatDuration } from "../utils/dateformat";
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -40,14 +41,10 @@
 <span>
   <CopyLink text="copy url" url={window.location.href} />
   &nbsp;|&nbsp;
-  <a use:link href="/" on:click={() => navigate("/")}>reset</a>
+  <Link href="/">reset</Link>
 </span>
 
 <style>
-  a {
-    color: #9a9a9a;
-    font-size: small;
-  }
   h4 {
     margin: 0;
   }

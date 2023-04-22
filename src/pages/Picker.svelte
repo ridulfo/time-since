@@ -2,6 +2,8 @@
   import { useNavigate } from "svelte-navigator";
   import SveltyPicker from "svelty-picker";
   import { dateFormat } from "../utils/dateformat";
+  import Link from "../components/Link.svelte";
+  import Tip from "../components/Tip.svelte";
 
   const navigate = useNavigate();
 
@@ -16,7 +18,7 @@
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-<h1 on:click={() => navigate("calculator")}>Time since</h1>
+<h1>Time since</h1>
 <div class="picker-container">
   <label for="title">Choose title</label>
   <input id="title" bind:value={title} />
@@ -27,8 +29,13 @@
     initialDate={new Date()}
   />
   <button on:click={onSubmit}>Go!</button>
-  <i class="tip">By the way, click title to get to the calculator</i>
 </div>
+
+<span>
+  <Link href="/about">About</Link>
+  &nbsp;|&nbsp;
+  <Link href="/calculator">Calculator</Link>
+</span>
 
 <style>
   .picker-container {
@@ -37,8 +44,7 @@
     align-items: center;
     gap: 1rem;
   }
-  .tip {
-    font-size: xx-small;
-    color: #666;
+  span {
+    margin-top: 1rem;
   }
 </style>
