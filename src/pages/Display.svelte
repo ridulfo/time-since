@@ -15,7 +15,7 @@
 
   const instant = dateFromFormat($params.time);
 
-  let title, to, splits: string[], seconds, formattedDistance, isPaused;
+  let title, to, splits: string[], formattedDistance, isPaused;
   $: {
     const search = new URLSearchParams($location.search);
     title = search.get("title");
@@ -23,17 +23,19 @@
     splits = search.getAll("splits");
     isPaused = to !== null;
   }
+  const getSeconds = () => {
+    const toDate = to ? dateFromFormat(to) : undefined;
+    const parsedSplits = splits?.map((s) => dateFromFormat(s));
+    return distance(instant, toDate, parsedSplits);
+  };
+
+  let seconds = getSeconds();
   $: {
     formattedDistance = formatDuration(seconds);
     window.document.title = formattedDistance;
   }
 
-  setInterval(() => {
-    const toDate = to ? dateFromFormat(to) : undefined;
-
-    const parsedSplits = splits.map((s) => dateFromFormat(s));
-    seconds = distance(instant, toDate, parsedSplits);
-  }, 750);
+  setInterval(() => (seconds = getSeconds()), 500);
 
   const pauseResume = () => {
     const path = $location.pathname;

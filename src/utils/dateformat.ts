@@ -1,18 +1,22 @@
 import dayjs from "dayjs";
 
+const pad = (n: number) => (n < 10 ? `0${n}` : n);
 /** Takes a number of seconds and returns a string containing how many
- * hours, minutes and seconds that is. */
+ * days, hours, minutes and seconds that is. */
 export const formatDuration = (seconds: number) => {
   const absSeconds = Math.abs(seconds);
-  const hours = Math.floor(absSeconds / 3600);
+  const days = Math.floor(absSeconds / 86400);
+  const hours = Math.floor((absSeconds % 86400) / 3600);
   const minutes = Math.floor((absSeconds % 3600) / 60);
   const secs = absSeconds % 60;
 
-  const hoursString = hours > 0 ? `${hours}h ` : "";
-  const minutesString = minutes > 0 ? `${minutes}m ` : "";
-  const secondsString = secs > 0 ? `${secs}s` : "";
-
-  return hoursString + minutesString + secondsString;
+  // if the unit above is greater than 0, we want to show it
+  return [
+    days > 0 ? `${pad(days)}d` : "",
+    hours > 0 || days > 0 ? `${pad(hours)}h` : "",
+    minutes > 0 || hours > 0 || days > 0 ? `${pad(minutes)}m` : "",
+    `${pad(secs)}s`,
+  ].join(" ");
 };
 
 export const dateFormat = (date: Date) => dayjs(date).format("YYYYMMDD-HHmmss");
