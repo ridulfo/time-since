@@ -21,9 +21,15 @@
   <h4>Default</h4>
   <code>/20230422-161300</code><br />
   will visualize the time since that date in seconds. The date is formatted as YYYYMMDD-HHMMSS.
-  <h4>End date</h4>
-  <code>/20230422-161300?end=20230422-171300</code><br />
-  will return the time since the end date; 1h.
+  <h4>To date</h4>
+  <code>/20230422-161300?to=20230422-171300</code><br />
+  will return the time since the to date; 1h.
+  <h4>Splits</h4>
+  <code>/20230423-084900 ? splits=20230423-085000 & splits=20230423-085010</code
+  ><br />
+  Adding splits allows you to "pause" the counter. In this example, the counter will
+  have started at 08:49, ran for 1 minute, and then paused for 10 seconds. The counter
+  will now be counting up.
   <h4>Coming soon (?)</h4>
   <code>/20230422-161300?type=workhours</code><br />
   will return the time since that date, but only count the work hours.<br /><br

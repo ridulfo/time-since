@@ -3,7 +3,11 @@
   import CopyLink from "../components/CopyLink.svelte";
   import Link from "../components/Link.svelte";
   import { distance } from "../utils/date";
-  import { dateFromFormat, formatDuration } from "../utils/dateformat";
+  import {
+    dateFormat,
+    dateFromFormat,
+    formatDuration,
+  } from "../utils/dateformat";
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -11,20 +15,45 @@
 
   const instant = dateFromFormat($params.time);
 
-  const search = new URLSearchParams($location.search);
-  const title = search.get("title");
-
-  $: seconds = distance(instant);
-  $: formattedDistance = formatDuration(seconds);
-  $: window.document.title = formattedDistance;
+  let title, to, splits: string[], seconds, formattedDistance, isPaused;
+  $: {
+    const search = new URLSearchParams($location.search);
+    title = search.get("title");
+    to = search.get("to");
+    splits = search.getAll("splits");
+    isPaused = to !== null;
+  }
+  $: {
+    formattedDistance = formatDuration(seconds);
+    window.document.title = formattedDistance;
+  }
 
   setInterval(() => {
-    seconds = distance(instant);
+    const toDate = to ? dateFromFormat(to) : undefined;
+
+    const parsedSplits = splits.map((s) => dateFromFormat(s));
+    seconds = distance(instant, toDate, parsedSplits);
   }, 750);
+
+  const pauseResume = () => {
+    const path = $location.pathname;
+    const search = new URLSearchParams($location.search);
+    // Pause
+    if (!search.get("to")) {
+      search.set("to", dateFormat(new Date()));
+      navigate(`${path}?${search.toString()}`);
+      return;
+    }
+    // Next pauses
+    search.append("splits", search.get("to"));
+    search.append("splits", dateFormat(new Date()));
+    search.delete("to");
+    navigate(`${path}?${search.toString()}`);
+  };
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-<h1 on:click={() => navigate("/")}>
+<h1 on:click={() => (window.location.href = "/")}>
   Time
   {#if seconds < 0}
     <u>since</u>
@@ -40,6 +69,14 @@
 </h3>
 <span>
   <CopyLink text="copy url" url={window.location.href} />
+  &nbsp;|&nbsp;
+  <button on:click={pauseResume}>
+    {#if isPaused}
+      Resume
+    {:else}
+      Pause
+    {/if}
+  </button>
   &nbsp;|&nbsp;
   <Link href="/">reset</Link>
 </span>
