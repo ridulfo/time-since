@@ -72,13 +72,16 @@
 <span>
   <CopyLink text="copy url" url={window.location.href} />
   &nbsp;|&nbsp;
-  <button on:click={pauseResume}>
-    {#if isPaused}
-      Resume
-    {:else}
-      Pause
-    {/if}
-  </button>
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
+  <span on:click={pauseResume}>
+    <u>
+      {#if isPaused}
+        resume
+      {:else}
+        pause
+      {/if}
+    </u>
+  </span>
   &nbsp;|&nbsp;
   <Link href="/">reset</Link>
 </span>
@@ -86,5 +89,10 @@
 <style>
   h4 {
     margin: 0;
+  }
+  span {
+    color: #9a9a9a;
+    font-size: small;
+    cursor: pointer;
   }
 </style>
