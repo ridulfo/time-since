@@ -15,14 +15,12 @@
 
   const instant = dateFromFormat($params.time);
 
-  let title, to, splits: string[], formattedDistance, isPaused;
-  $: {
-    const search = new URLSearchParams($location.search);
-    title = search.get("title");
-    to = search.get("to");
-    splits = search.getAll("splits");
-    isPaused = to !== null;
-  }
+  $: search = new URLSearchParams($location.search);
+  $: title = search.get("title");
+  $: to = search.get("to");
+  $: splits = search.getAll("splits");
+  $: isPaused = to !== null;
+
   const getSeconds = () => {
     const toDate = to ? dateFromFormat(to) : undefined;
     const parsedSplits = splits?.map((s) => dateFromFormat(s));
@@ -30,10 +28,8 @@
   };
 
   let seconds = getSeconds();
-  $: {
-    formattedDistance = formatDuration(seconds);
-    window.document.title = formattedDistance;
-  }
+  $: formattedDistance = formatDuration(seconds);
+  $: window.document.title = formattedDistance;
 
   setInterval(() => (seconds = getSeconds()), 500);
 
@@ -52,16 +48,12 @@
     search.delete("to");
     navigate(`${path}?${search.toString()}`);
   };
+  $: header = `Time <u>${seconds < 0 ? "since" : "until"}</u>`;
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <h1 on:click={() => (window.location.href = "/")}>
-  Time
-  {#if seconds < 0}
-    <u>since</u>
-  {:else}
-    <u>until</u>
-  {/if}
+  {@html header}
 </h1>
 {#if title}
   <h4>{title}</h4>
