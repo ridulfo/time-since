@@ -56,12 +56,20 @@
   {@html header}
 </h1>
 {#if title}
-  <h4>{title}</h4>
+  <h2>{title}</h2>
 {/if}
-<h3>
-  {formattedDistance}
-</h3>
-<span>
+<div class="distance">
+  <svg
+    preserveAspectRatio="none"
+    viewBox="0 0 115 30"
+    width="100%"
+  >
+    <text x="50%" y="10" text-anchor="middle" dominant-baseline="middle">
+      {formattedDistance}
+    </text>
+  </svg>
+</div>
+<span class="controls">
   <CopyLink text="copy url" url={window.location.href} />
   &nbsp;|&nbsp;
   <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -79,10 +87,24 @@
 </span>
 
 <style>
-  h4 {
-    margin: 0;
+  h1 {
+    font-family: italiana;
+    font-size: min(48px, 5vw);
+    margin: 10% 0 0 0;
   }
-  span {
+  h2 {
+    font-family: italiana;
+    font-size: min(92px, 10vw);
+    margin: min(40px, -2vw) 0 0 0;
+  }
+  .distance {
+    font-family: stylish;
+    margin: 5% 0;
+    width: 90dvw;
+    display: flex;
+    justify-content: center;
+  }
+  .controls {
     color: #9a9a9a;
     font-size: small;
     cursor: pointer;
