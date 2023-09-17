@@ -90,7 +90,7 @@
   h1 {
     font-family: italiana;
     font-size: min(48px, 5vw);
-    margin: 10% 0 0 0;
+    margin: 10% 0 5px 0;
   }
   h2 {
     font-family: italiana;
