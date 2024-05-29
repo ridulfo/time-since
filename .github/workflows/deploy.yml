@@ -19,8 +19,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
-      - run: npm install
-      - run: npm run build
+      - name: Run install
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install
+      - name: Run build
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: build
       - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v1
         with:
