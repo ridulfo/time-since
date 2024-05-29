@@ -88,17 +88,16 @@
 
 <style>
   h1 {
-    font-family: italiana;
     font-size: min(48px, 5vw);
     margin: 10% 0 5px 0;
   }
   h2 {
-    font-family: italiana;
+    font-weight: 600;
     font-size: min(92px, 10vw);
     margin: min(40px, -2vw) 0 0 0;
   }
   .distance {
-    font-family: stylish;
+    font-weight: 800;
     margin: 5% 0;
     width: 90dvw;
     display: flex;
