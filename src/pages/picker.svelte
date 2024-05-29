@@ -2,8 +2,7 @@
   import { useNavigate } from "svelte-navigator";
   import SveltyPicker from "svelty-picker";
   import { dateFormat } from "../utils/dateformat";
-  import Link from "../components/Link.svelte";
-  import Tip from "../components/Tip.svelte";
+  import Link from "../components/link.svelte";
 
   const navigate = useNavigate();
 

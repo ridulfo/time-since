@@ -1,7 +1,7 @@
 <script lang="ts">
   import { useLocation, useNavigate, useParams } from "svelte-navigator";
-  import CopyLink from "../components/CopyLink.svelte";
-  import Link from "../components/Link.svelte";
+  import CopyLink from "../components/copy-link.svelte";
+  import Link from "../components/link.svelte";
   import { distance } from "../utils/date";
   import {
     dateFormat,

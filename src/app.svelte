@@ -1,11 +1,11 @@
 <script lang="ts">
   import { Route, Router, createHistory } from "svelte-navigator";
   import { createHashSource } from "./hash-history";
-  import TotalCalculator from "./pages/TotalCalculator.svelte";
-  import Picker from "./pages/Picker.svelte";
-  import Display from "./pages/Display.svelte";
-  import About from "./pages/About.svelte";
-  import Corner from "./components/Corner.svelte";
+  import TotalCalculator from "./pages/total-calculator.svelte";
+  import Picker from "./pages/picker.svelte";
+  import Display from "./pages/display.svelte";
+  import About from "./pages/about.svelte";
+  import Corner from "./components/corner.svelte";
 
   const hashHistory = createHistory(createHashSource());
 </script>
