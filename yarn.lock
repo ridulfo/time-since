@@ -723,11 +723,6 @@ svelte@^3.55.1:
   resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.59.2.tgz#a137b28e025a181292b2ae2e3dca90bf8ec73aec"
   integrity sha512-vzSyuGr3eEoAtT/A6bmajosJZIUWySzY2CzB3w2pgPvnkUjGqlDnsNnA0PMO+mMAhuyMul6C2uuZzY6ELSkzyA==
 
-svelty-picker@^3.4.6:
-  version "3.6.1"
-  resolved "https://registry.yarnpkg.com/svelty-picker/-/svelty-picker-3.6.1.tgz#450d2eeebecf02b28f0b396c364da8e642e65202"
-  integrity sha512-Vgy9ef7AOZ3vXABEdu94MnfV2lTAVSSPAouEAotcuQgBpOxJpt1gk+bcxWPP3XOVcauVnbTJocicZ7UppKNXfA==
-
 to-regex-range@^5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/to-regex-range/-/to-regex-range-5.0.1.tgz#1648c44aae7c8d988a326018ed72f5b4dd0392e4"

@@ -20,6 +20,7 @@ export const formatDuration = (seconds: number) => {
 };
 
 export const dateFormat = (date: Date) => dayjs(date).format("YYYYMMDD-HHmmss");
+export const dateFormatDatetimeLocale = (date: Date) => dayjs(date).format("YYYY-MM-DDTHH:mm");
 
 export const dateFromFormat = (date: string) => {
   // return datejs(date, "YYYYMMDD-HHmmss") did not work

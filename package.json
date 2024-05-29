@@ -21,7 +21,6 @@
   "dependencies": {
     "dayjs": "^1.11.7",
     "history": "^5.3.0",
-    "svelte-navigator": "^3.2.2",
-    "svelty-picker": "^3.4.6"
+    "svelte-navigator": "^3.2.2"
   }
 }

@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
-import { dateFormat } from "./dateformat";
+
 dayjs.extend(isBetween);
 
 export const distance = (end: Date, start?: Date, splits: Date[] = []) => {
@@ -24,3 +24,5 @@ export const distance = (end: Date, start?: Date, splits: Date[] = []) => {
   const sum = distances.reduce((acc, distance) => acc + distance, 0);
   return sum;
 };
+
+
