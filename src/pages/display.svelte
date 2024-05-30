@@ -59,15 +59,8 @@
   <h2>{title}</h2>
 {/if}
 <div class="distance">
-  <svg preserveAspectRatio="none" viewBox="0 0 100 30" width="100%">
-    <text
-      x="50%"
-      y="50%"
-      text-anchor="middle"
-      dominant-baseline="middle"
-      textLength="100"
-      lengthAdjust="spacingAndGlyphs"
-    >
+  <svg preserveAspectRatio="none" viewBox="0 0 115 30" width="100%">
+      <text x="0" y="50%" textLength="115" lengthAdjust="spacing">
       {formattedDistance}
     </text>
   </svg>
