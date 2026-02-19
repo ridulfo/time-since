@@ -5,7 +5,7 @@
 
   const navigate = useNavigate();
 
-  let datetimeStr = "";
+  let datetimeStr = dateFormatDatetimeLocale(new Date());
   let title = "";
   let workHoursMode = false;
   let workdayStart = "08:00";
