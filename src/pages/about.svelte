@@ -30,15 +30,15 @@
   Adding splits allows you to "pause" the counter. In this example, the counter will
   have started at 08:49, ran for 1 minute, and then paused for 10 seconds. The counter
   will now be counting up.
-  <h4>Coming soon (?)</h4>
+  <h4>Work hours</h4>
   <code>/20230422-161300?type=workhours</code><br />
-  will return the time since that date, but only count the work hours.<br /><br
-  />
+  will return the time since that date, but only count working hours (weekdays,
+  08:00–16:30 by default).<br /><br />
   <code
-    >/20230422-161300?type=workhours & workdaystart=0800 & workdayend=1600</code
+    >/20230422-161300?type=workhours&workdaystart=0900&workdayend=1700</code
   ><br />
-  Optionally, you can specify the start of the work day. The default is 0800 and
-  1630. will return the time since that date, but only count the work hours
+  Optionally, you can specify the start and end of the work day. The default is
+  0800 and 1630.
 </content>
 
 <style>

@@ -2,11 +2,12 @@
   import { useLocation, useNavigate, useParams } from "svelte-navigator";
   import CopyLink from "../components/copy-link.svelte";
   import Link from "../components/link.svelte";
-  import { distance } from "../utils/date";
+  import { distance, workingDistance } from "../utils/date";
   import {
     dateFormat,
     dateFromFormat,
     formatDuration,
+    parseHHMM,
   } from "../utils/dateformat";
 
   const navigate = useNavigate();
@@ -19,11 +20,17 @@
   $: title = search.get("title");
   $: to = search.get("to");
   $: splits = search.getAll("splits");
+  $: type = search.get("type");
   $: isPaused = to !== null;
 
   const getSeconds = () => {
     const toDate = to ? dateFromFormat(to) : undefined;
     const parsedSplits = splits?.map((s) => dateFromFormat(s));
+    if (type === "workhours") {
+      const startMinutes = search.get("workdaystart") ? parseHHMM(search.get("workdaystart")) : 480;
+      const endMinutes = search.get("workdayend") ? parseHHMM(search.get("workdayend")) : 990;
+      return workingDistance(instant, toDate, parsedSplits, { startMinutes, endMinutes });
+    }
     return distance(instant, toDate, parsedSplits);
   };
 

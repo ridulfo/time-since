@@ -7,10 +7,21 @@
 
   let datetimeStr = "";
   let title = "";
+  let workHoursMode = false;
+  let workdayStart = "08:00";
+  let workdayEnd = "16:30";
+
   const onSubmit = () => {
     const datetime = new Date(datetimeStr);
     const search = new URLSearchParams();
     if (title) search.set("title", title);
+    if (workHoursMode) {
+      search.set("type", "workhours");
+      const startHHMM = workdayStart.replace(":", "");
+      const endHHMM = workdayEnd.replace(":", "");
+      if (startHHMM !== "0800") search.set("workdaystart", startHHMM);
+      if (endHHMM !== "1630") search.set("workdayend", endHHMM);
+    }
     navigate(`/${dateFormat(datetime)}?${search.toString()}`);
   };
 </script>
@@ -35,6 +46,22 @@
       Now
     </button>
   </div>
+  <label class="checkbox-label">
+    <input type="checkbox" bind:checked={workHoursMode} />
+    Work hours only
+  </label>
+  {#if workHoursMode}
+    <div class="workhours-inputs">
+      <label>
+        Start
+        <input class="input" type="time" bind:value={workdayStart} />
+      </label>
+      <label>
+        End
+        <input class="input" type="time" bind:value={workdayEnd} />
+      </label>
+    </div>
+  {/if}
   <button class="button" on:click={onSubmit}>Go!</button>
 </div>
 
@@ -71,6 +98,25 @@
     background: #f2f2f2;
     border: 1px solid #5a7ec7;
     border-radius: 10px;
+  }
+
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+  }
+
+  .workhours-inputs {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .workhours-inputs label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
   }
 
   .button {

@@ -22,6 +22,10 @@ export const formatDuration = (seconds: number) => {
 export const dateFormat = (date: Date) => dayjs(date).format("YYYYMMDD-HHmmss");
 export const dateFormatDatetimeLocale = (date: Date) => dayjs(date).format("YYYY-MM-DDTHH:mm");
 
+export const parseHHMM = (s: string): number => {
+  return parseInt(s.slice(0, 2)) * 60 + parseInt(s.slice(2, 4));
+};
+
 export const dateFromFormat = (date: string) => {
   // return datejs(date, "YYYYMMDD-HHmmss") did not work
   const year = parseInt(date.slice(0, 4));
