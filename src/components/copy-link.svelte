@@ -1,16 +1,18 @@
 <script lang="ts">
-  export let text;
-  export let url;
-  $: hasCopied = false;
+  let { text, url } = $props<{ text: string; url: string }>();
+
+  let hasCopied = $state(false);
+
   const copyUrl = () => {
     navigator.clipboard.writeText(url);
     hasCopied = true;
   };
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<!-- svelte-ignore a11y-missing-attribute -->
-<a on:click={copyUrl}>
+<!-- svelte-ignore a11y_click_events_have_key_events -->
+<!-- svelte-ignore a11y_missing_attribute -->
+<!-- svelte-ignore a11y_no_static_element_interactions -->
+<a onclick={copyUrl}>
   {#if hasCopied}
     copied!
   {:else}

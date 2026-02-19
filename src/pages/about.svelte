@@ -1,11 +1,10 @@
 <script lang="ts">
-  import { useNavigate } from "svelte-navigator";
-
-  const navigate = useNavigate();
+  import { router } from "../router.svelte";
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<h1 on:click={() => navigate("/")}>Time since</h1>
+<!-- svelte-ignore a11y_click_events_have_key_events -->
+<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+<h1 onclick={() => router.navigate("/")}>Time since</h1>
 <content>
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   <h2>About</h2>

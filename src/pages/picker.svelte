@@ -1,15 +1,13 @@
 <script lang="ts">
-  import { useNavigate } from "svelte-navigator";
+  import { router } from "../router.svelte";
   import { dateFormat, dateFormatDatetimeLocale } from "../utils/dateformat";
   import Link from "../components/link.svelte";
 
-  const navigate = useNavigate();
-
-  let datetimeStr = dateFormatDatetimeLocale(new Date());
-  let title = "";
-  let workHoursMode = false;
-  let workdayStart = "08:00";
-  let workdayEnd = "16:30";
+  let datetimeStr = $state(dateFormatDatetimeLocale(new Date()));
+  let title = $state("");
+  let workHoursMode = $state(false);
+  let workdayStart = $state("08:00");
+  let workdayEnd = $state("16:30");
 
   const onSubmit = () => {
     const datetime = new Date(datetimeStr);
@@ -22,11 +20,10 @@
       if (startHHMM !== "0800") search.set("workdaystart", startHHMM);
       if (endHHMM !== "1630") search.set("workdayend", endHHMM);
     }
-    navigate(`/${dateFormat(datetime)}?${search.toString()}`);
+    router.navigate(`/${dateFormat(datetime)}?${search.toString()}`);
   };
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events -->
 <h1>Time since</h1>
 <div class="picker-container">
   <label for="title">Choose title</label>
@@ -41,7 +38,7 @@
     />
     <button
       class="button"
-      on:click={() => (datetimeStr = dateFormatDatetimeLocale(new Date()))}
+      onclick={() => (datetimeStr = dateFormatDatetimeLocale(new Date()))}
     >
       Now
     </button>
@@ -62,7 +59,7 @@
       </label>
     </div>
   {/if}
-  <button class="button" on:click={onSubmit}>Go!</button>
+  <button class="button" onclick={onSubmit}>Go!</button>
 </div>
 
 <span>

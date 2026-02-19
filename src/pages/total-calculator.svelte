@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { link, useNavigate } from "svelte-navigator";
+  import { router } from "../router.svelte";
 
-  let text = "";
-  $: total = "0";
+  let text = $state("");
+  let total = $state("0");
 
   const onInput = () => {
     // Limit each line to 9 characters
@@ -32,17 +32,17 @@
       return `${hours} hours and ${minutes} minutes`;
     } catch (error) {}
   };
-  const navigate = useNavigate();
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<h1 on:click={() => navigate("/")}>Time since</h1>
+<!-- svelte-ignore a11y_click_events_have_key_events -->
+<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+<h1 onclick={() => router.navigate("/")}>Time since</h1>
 <p>
   Enter times in the format <code>HHMM HHMM</code>
 </p>
 <textarea
   bind:value={text}
-  on:input={onInput}
+  oninput={onInput}
   cols="8"
   rows="10"
   wrap="hard"
@@ -50,8 +50,7 @@
 .
 .
 .
-1800 1900"
-/>
+1800 1900"></textarea>
 <p>Total Time: {total}</p>
 
 <style>

@@ -1,10 +1,15 @@
 <script lang="ts">
-  import { link, useNavigate } from "svelte-navigator";
-  const navigate = useNavigate();
-  export let href = "";
+  import { router } from "../router.svelte";
+
+  let { href = "", children } = $props();
+
+  function handleClick(e: MouseEvent) {
+    e.preventDefault();
+    router.navigate(href);
+  }
 </script>
 
-<a use:link={navigate} {href}><slot /></a>
+<a {href} onclick={handleClick}>{@render children()}</a>
 
 <style>
   a {

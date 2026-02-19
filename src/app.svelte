@@ -1,22 +1,25 @@
 <script lang="ts">
-  import { Route, Router, createHistory } from "svelte-navigator";
-  import { createHashSource } from "./hash-history";
+  import { router } from "./router.svelte";
   import TotalCalculator from "./pages/total-calculator.svelte";
   import Picker from "./pages/picker.svelte";
   import Display from "./pages/display.svelte";
   import About from "./pages/about.svelte";
   import Corner from "./components/corner.svelte";
 
-  const hashHistory = createHistory(createHashSource());
+  const routes = [
+    { path: "/", component: Picker },
+    { path: "/calculator", component: TotalCalculator },
+    { path: "/about", component: About },
+    { path: "/:time", component: Display },
+  ];
+
+  router.registerRoutes(routes);
+
+  let CurrentComponent = $derived(router.getComponent(routes) || Picker);
 </script>
 
 <main>
-  <Router history={hashHistory}>
-    <Route path="/calculator" component={TotalCalculator} />
-    <Route path="/about" component={About} />
-    <Route path="/" component={Picker} />
-    <Route path="/:time" component={Display} />
-  </Router>
+  <CurrentComponent />
 </main>
 <Corner />
 
