@@ -1,13 +1,9 @@
 name: Deploy Svelte App to GitHub Pages
 on:
-  # Trigger the workflow every time you push to the `main` branch
-  # Using a different branch name? Replace `main` with your branch’s name
   push:
     branches: [ main ]
-  # Allows you to run this workflow manually from the Actions tab on GitHub.
   workflow_dispatch:
-  
-# Allow this job to clone the repo and create a page deployment
+
 permissions:
   contents: read
   pages: write
@@ -17,8 +13,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
       - name: Run install
         uses: borales/actions-yarn@v4
         with:
@@ -28,7 +24,7 @@ jobs:
         with:
           cmd: build
       - name: Upload Pages Artifact
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@v4
         with:
           path: "dist"
 
@@ -41,4 +37,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v1
+        uses: actions/deploy-pages@v4
